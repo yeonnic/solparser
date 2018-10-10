@@ -1,4 +1,4 @@
-#include "tokenize.h"
+#include "tokenize.hpp"
 
 bool ishex(char c)
 {
