@@ -23,6 +23,14 @@ string ReadFile(const string &fileName){
   return s;
 }
 
+void TokensView(const vector<Token> &T){
+  cout << "[ ";
+  for ( auto i: T){
+    cout << "'\x1b[91m" << i.str << "\x1b[0m', ";
+  }
+  cout << "]" << endl;
+}
+
 int main(int argc, char **argv){
 
   args::ArgumentParser parser("This is a solidity parse program.", "This goes after the options.");
@@ -35,14 +43,22 @@ int main(int argc, char **argv){
   try {
     parser.ParseCLI(argc ,argv);
 
-    string source;
 
-    if(file){
-      source = ReadFile(args::get(file));
+    if(file || sinput){
+      string source;
 
-      cout << source << endl;
-    } else if(sinput){
-      cout << "stdin input!!!" << endl;
+      if(file){
+        source = ReadFile(args::get(file));
+
+        cout << source << endl;
+
+      } else if(sinput){
+        cout << "stdin input!!!" << endl;
+      }
+      
+      auto tokens = Tokenize(source);
+
+      TokensView(tokens);
     }
   } catch (args::Completion& e){
     cout << e.what() << endl;
