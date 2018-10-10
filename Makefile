@@ -1,6 +1,6 @@
 FLAG=-std=c++11
 
-all: solparser clean
+install: solparser clean
 
 tokenize.o:
 	g++ -c -o ./tokenize.o ./tokenize.cpp $(FLAG)
