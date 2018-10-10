@@ -28,7 +28,7 @@ int main(int argc, char **argv){
   args::ArgumentParser parser("This is a solidity parse program.", "This goes after the options.");
   args::HelpFlag help(parser, "help", "Display this help menu", {'h', "help"});
 
-  args::Group inputGroup(parser, "read source options", args::Group::Validators::Xor);
+  args::Group inputGroup(parser, "read source options:", args::Group::Validators::Xor);
   args::ValueFlag<string> file(inputGroup, "NAME", "read the source file", {'f', "file"});
   args::Flag sinput(inputGroup, "stdin", "read the stdin", {'d', "stdin"});
 
@@ -55,7 +55,6 @@ int main(int argc, char **argv){
     cerr << parser;
     return -1;
   } catch (const args::ValidationError e){
-    std::cerr << e.what() << std::endl;
     std::cerr << parser;
     return 1;
   }
