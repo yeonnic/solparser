@@ -1,4 +1,4 @@
-#include "./tokenize.hpp"
+#include "./tree.hpp"
 #include "./argx.hpp"
 
 string ReadFile(const string &fileName){
@@ -23,12 +23,32 @@ string ReadFile(const string &fileName){
   return s;
 }
 
+void printTab(int count){
+  for(int i=0; i<count; i++)
+    cout << "\t";
+}
+
 void TokensView(const vector<Token> &T){
   cout << "[ ";
   for ( auto i: T){
     cout << "'\x1b[91m" << i.str << "\x1b[0m', ";
   }
   cout << "]" << endl;
+}
+
+void SoltreeView(const SolTree &tree, int count = 0){
+  printTab(count);
+  cout << tree.name << " ";
+  cout << "\n";
+  if(tree.inherited.size()){
+    cout << " is ";
+    for(auto i : tree.inherited){
+      cout << i.name << " ";
+    }
+  }
+  for(auto i : tree.children){
+    SoltreeView(i, count+1);
+  }
 }
 
 int main(int argc, char **argv){
@@ -56,9 +76,10 @@ int main(int argc, char **argv){
         cout << "stdin input!!!" << endl;
       }
       
-      auto tokens = Tokenize(source);
+      auto tree = SolParser(source);
 
-      TokensView(tokens);
+      SoltreeView(tree);
+
     }
   } catch (args::Completion& e){
     cout << e.what() << endl;
